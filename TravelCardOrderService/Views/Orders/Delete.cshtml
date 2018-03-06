@@ -1,0 +1,126 @@
+﻿@model TravelCardOrderService.Models.Order
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete order</h2>
+<hr />
+
+<form asp-action="Delete">
+    <div class="row form-border">
+        <div class="form-group">
+            <div class="row">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input asp-for="Name" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="Mb"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="Mb" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="M46"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="M46" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="M62"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="M62" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MAb"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MAb" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MA46"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MA46" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MA62"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MA62" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MTRb"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MTRb" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MTR46"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MTR46" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MTR62"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MTR62" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MTb"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MTb" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MT46"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MT46" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label asp-for="MT62"></label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input asp-for="MT62" disabled class="form-control" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Delete" class="btn btn-sm btn-danger" />
+            <a asp-action="Index" class="btn btn-sm btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
