@@ -1,23 +1,18 @@
 ﻿@model IEnumerable<TravelCardOrderService.Models.Order>
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "All orders";
 }
 
 <br />
-<h2>Orders</h2>
+<h2>All orders</h2>
 <hr />
 
-<p>
-    <a asp-action="Create" class="bth btn-sm btn-primary">Add order</a>
-</p>
-
-<br />
 
 <div class="form-border">
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.Name)
+                @Html.DisplayNameFor(m => m.UserName)
             </th>
             <th>
                 @Html.DisplayNameFor(m => m.Mb)
@@ -61,7 +56,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(m => item.Name)
+                @Html.DisplayFor(m => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(m => item.Mb)

@@ -11,9 +11,10 @@ using TravelCardOrderService.Data;
 namespace TravelCardOrderService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180307100403_NameAttributeAdded")]
+    partial class NameAttributeAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,10 +212,7 @@ namespace TravelCardOrderService.Data.Migrations
 
                     b.Property<int?>("Mb");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("Id");

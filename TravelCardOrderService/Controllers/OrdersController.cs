@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelCardOrderService.Data;
@@ -17,9 +18,12 @@ namespace TravelCardOrderService.Controllers
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrdersController(ApplicationDbContext db)
+
+        public OrdersController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _db = db;
         }
 
@@ -27,8 +31,23 @@ namespace TravelCardOrderService.Controllers
         [HttpGet]
         public IActionResult Index(string token)
         {
-            var currentUser = HttpContext.User;
             return View(_db.Orders.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult GetByUser()
+        {
+            var orders = _db.Orders.ToList();
+            var userOrders = new List<Order>();
+            var userId = _userManager.GetUserId(User);
+            foreach(var o in orders)
+            {
+                if (o.UserId.Equals(userId))
+                {
+                    userOrders.Add(o);
+                }
+            }
+            return View(userOrders);
         }
 
         [HttpGet]
@@ -43,9 +62,15 @@ namespace TravelCardOrderService.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = _userManager.GetUserId(User);
+                order.UserId = userId;
+
+                var userName = _userManager.GetUserAsync(User).Result.Name;
+                order.UserName = userName;
+
                 _db.Add(order);
                 await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GetByUser));
             }
 
             return View(order);
@@ -92,9 +117,15 @@ namespace TravelCardOrderService.Controllers
 
             if (ModelState.IsValid)
             {
+                var userId = _userManager.GetUserId(User);
+                order.UserId = userId;
+
+                var userName = _userManager.GetUserAsync(User).Result.Name;
+                order.UserName = userName;
+
                 _db.Update(order);
                 await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GetByUser));
             }
             return View(order);
         }
@@ -121,7 +152,7 @@ namespace TravelCardOrderService.Controllers
             var order = await _db.Orders.SingleOrDefaultAsync(m => m.Id == id);
             _db.Orders.Remove(order);
             await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(GetByUser));
         }
 
         protected override void Dispose(bool disposing)

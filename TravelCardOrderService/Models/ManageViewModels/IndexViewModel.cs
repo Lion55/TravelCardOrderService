@@ -8,6 +8,8 @@ namespace TravelCardOrderService.Models.ManageViewModels
 {
     public class IndexViewModel
     {
+        public string Name { get; set; }
+
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }

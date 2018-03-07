@@ -15,14 +15,6 @@
             <div class="row">
                 <div class="row">
                     <div class="col-sm-1">
-                        <label asp-for="Name"></label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input asp-for="Name" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
                         <label asp-for="Mb"></label>
                     </div>
                     <div class="col-sm-1">
@@ -118,7 +110,6 @@
                     </div>
                 </div>
                 </div>
-                <span asp-validation-for="Name" class="text-danger"></span>
                 <span asp-validation-for="Mb" class="text-danger"></span>
                 <span asp-validation-for="M46" class="text-danger"></span>
                 <span asp-validation-for="M62" class="text-danger"></span>
@@ -135,7 +126,7 @@
         <br />
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-sm btn-primary" />
-            <input type="submit" asp-action="Index" value="Back to List" class="btn btn-sm btn-success" />
+            <input type="submit" asp-action="GetByUser" value="Back to List" class="btn btn-sm btn-success" />
         </div>
     </div>
 </form>

@@ -57,6 +57,7 @@ namespace TravelCardOrderService.Controllers
 
             var model = new IndexViewModel
             {
+                Name = user.Name,
                 Username = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,

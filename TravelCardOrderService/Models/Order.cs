@@ -10,8 +10,10 @@ namespace TravelCardOrderService.Models
     {
         [Required]
         public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
+
+        public string UserId { get; set; }
+
+        public string UserName { get; set; }
         
         public int? Mb { get; set; }
         public int? M46 { get; set; }
