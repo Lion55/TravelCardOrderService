@@ -16,28 +16,27 @@ namespace TravelCardOrderService.Controllers
     [Authorize(Roles ="Admin,User")]
     public class OrdersController : Controller
     {
-
-        private readonly ApplicationDbContext _db;
+        private readonly IOrdersStorage _ordersStorage;
         private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public OrdersController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public OrdersController(IOrdersStorage ordersStorage, UserManager<ApplicationUser> userManager)
         {
+            _ordersStorage = ordersStorage;
             _userManager = userManager;
-            _db = db;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Index(string token)
         {
-            return View(_db.Orders.ToList());
+            return View(_ordersStorage.GetAll());
         }
 
         [HttpGet]
         public IActionResult GetByUser()
         {
-            var orders = _db.Orders.ToList();
+            var orders = _ordersStorage.GetAll();
             var userOrders = new List<Order>();
             var userId = _userManager.GetUserId(User);
             foreach(var o in orders)
@@ -68,8 +67,11 @@ namespace TravelCardOrderService.Controllers
                 var userName = _userManager.GetUserAsync(User).Result.Name;
                 order.UserName = userName;
 
-                _db.Add(order);
-                await _db.SaveChangesAsync();
+                var date = DateTime.UtcNow.Date;
+                order.Date = date;
+
+                _ordersStorage.Add(order);
+                await _ordersStorage.SaveChangesAsync();
                 return RedirectToAction(nameof(GetByUser));
             }
 
@@ -83,7 +85,7 @@ namespace TravelCardOrderService.Controllers
             {
                 return NotFound();
             }
-            var order = await _db.Orders.SingleOrDefaultAsync(m => m.Id == id);
+            var order = await _ordersStorage.SingleOrDefaultAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -98,7 +100,7 @@ namespace TravelCardOrderService.Controllers
             {
                 return NotFound();
             }
-            var order = await _db.Orders.SingleOrDefaultAsync(m => m.Id == id);
+            var order = await _ordersStorage.SingleOrDefaultAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -123,8 +125,8 @@ namespace TravelCardOrderService.Controllers
                 var userName = _userManager.GetUserAsync(User).Result.Name;
                 order.UserName = userName;
 
-                _db.Update(order);
-                await _db.SaveChangesAsync();
+                _ordersStorage.Update(order);
+                await _ordersStorage.SaveChangesAsync();
                 return RedirectToAction(nameof(GetByUser));
             }
             return View(order);
@@ -137,7 +139,7 @@ namespace TravelCardOrderService.Controllers
             {
                 return NotFound();
             }
-            var order = await _db.Orders.SingleOrDefaultAsync(m => m.Id == id);
+            var order = await _ordersStorage.SingleOrDefaultAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -149,9 +151,9 @@ namespace TravelCardOrderService.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveOrder(int id)
         {
-            var order = await _db.Orders.SingleOrDefaultAsync(m => m.Id == id);
-            _db.Orders.Remove(order);
-            await _db.SaveChangesAsync();
+            var order = await _ordersStorage.SingleOrDefaultAsync(id);
+            _ordersStorage.Remove(order);
+            await _ordersStorage.SaveChangesAsync();
             return RedirectToAction(nameof(GetByUser));
         }
 
@@ -159,7 +161,7 @@ namespace TravelCardOrderService.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                _ordersStorage.Dispose();
             }
         }
     }

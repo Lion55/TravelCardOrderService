@@ -14,7 +14,9 @@ namespace TravelCardOrderService.Models
         public string UserId { get; set; }
 
         public string UserName { get; set; }
-        
+
+        public DateTime Date { get; set; }
+
         public int? Mb { get; set; }
         public int? M46 { get; set; }
         public int? M62 { get; set; }

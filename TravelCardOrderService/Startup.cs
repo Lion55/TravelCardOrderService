@@ -36,6 +36,8 @@ namespace TravelCardOrderService
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddScoped<IOrdersStorage, DbOrdersStorage>();
+
             services.AddMvc();
         }
 
