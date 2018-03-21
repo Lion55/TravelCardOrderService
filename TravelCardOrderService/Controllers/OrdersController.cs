@@ -28,20 +28,42 @@ namespace TravelCardOrderService.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult Index(string token)
+        public IActionResult Index(int year, int month)
         {
-            return View(_ordersStorage.GetAll());
+            if (year == 0)
+                year = DateTime.Now.Year;
+            if (month == 0)
+                month = DateTime.Now.Month;
+
+            var orders = _ordersStorage.GetAll();
+            var ordersByDate = new List<Order>();
+
+            foreach (var o in orders)
+            {
+                if (o.Date.Year == year && o.Date.Month == month)
+                {
+                    ordersByDate.Add(o);
+                }
+            }
+
+            ordersByDate.Sort((x, y) => x.UserName.CompareTo(y.UserName));
+            return View(ordersByDate);
         }
 
         [HttpGet]
-        public IActionResult GetByUser()
+        public IActionResult GetByUser(int year, int month)
         {
+            if (year == 0)
+                year = DateTime.Now.Year;
+            if (month == 0)
+                month = DateTime.Now.Month;
+
             var orders = _ordersStorage.GetAll();
             var userOrders = new List<Order>();
             var userId = _userManager.GetUserId(User);
             foreach(var o in orders)
             {
-                if (o.UserId.Equals(userId))
+                if (o.UserId.Equals(userId) && o.Date.Year == year && o.Date.Month == month)
                 {
                     userOrders.Add(o);
                 }
@@ -67,7 +89,8 @@ namespace TravelCardOrderService.Controllers
                 var userName = _userManager.GetUserAsync(User).Result.Name;
                 order.UserName = userName;
 
-                var date = DateTime.UtcNow.Date;
+                var today = DateTime.UtcNow.Date;
+                var date = new DateTime(today.Year, today.Month + 1, today.Day);
                 order.Date = date;
 
                 _ordersStorage.Add(order);

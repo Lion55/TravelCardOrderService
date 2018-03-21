@@ -39,3 +39,9 @@
     border-radius: 5px;
     padding: 10px;
 }
+
+
+.dropdown:hover > .dropdown-menu {
+    display: block;
+    margin: 0;
+}
