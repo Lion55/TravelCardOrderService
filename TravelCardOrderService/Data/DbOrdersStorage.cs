@@ -46,6 +46,11 @@ namespace TravelCardOrderService.Data
             _db.Orders.Remove(order);
         }
 
+        public int Count()
+        {
+            return _db.Orders.Count();
+        }
+
         public void Dispose()
         {
             _db.Dispose();

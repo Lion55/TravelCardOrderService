@@ -20,6 +20,8 @@ namespace TravelCardOrderService.Data
 
         void Remove(Order order);
 
+        int Count();
+
         void Dispose();
     }
 }

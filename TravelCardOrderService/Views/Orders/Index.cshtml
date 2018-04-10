@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<TravelCardOrderService.Models.Order>
+@using TravelCardOrderService.Controllers
 @{
     ViewData["Title"] = "All orders";
+    Order finalOrder = (Order)ViewData["finalOrder"];
 }
 
 <br />
@@ -111,8 +113,34 @@
                 <a asp-action="Details" asp-route-id="@item.Id" class="bnt btn-sm btn-primary">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.Id" class="bnt btn-sm btn-danger">Delete</a>
             </td>
-        </tr>	
+        </tr>
+}
+        @{ 
+        
+        <tr>
+            <th></th>
+            <th>@finalOrder.Mb</th>
+            <th>@finalOrder.M46</th>
+            <th>@finalOrder.M62</th>
 
+            <th>@finalOrder.MAb</th>
+            <th>@finalOrder.MA46</th>
+            <th>@finalOrder.MA62</th>
+
+            <th>@finalOrder.MTRb</th>
+            <th>@finalOrder.MTR46</th>
+            <th>@finalOrder.MTR62</th>
+
+            <th>@finalOrder.MTb</th>
+            <th>@finalOrder.MT46</th>
+            <th>@finalOrder.MT62</th>
+
+            <th>@finalOrder.Amount</th>
+            <th>@finalOrder.Cost</th>
+            <th>
+                <a asp-action="FormFinalOrder" class="bnt btn-sm btn-warning">Form final order</a>
+            </th>
+        </tr>
         }
     </table>
 </div>

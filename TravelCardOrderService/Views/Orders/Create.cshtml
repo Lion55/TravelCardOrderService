@@ -17,7 +17,7 @@
                     <tr>
                         <th>
                             <label asp-for="Mb"></label>
-                         </th>
+                        </th>
                         <th>
                             <label asp-for="M46"></label>
                         </th>
@@ -51,59 +51,46 @@
                         <th>
                             <label asp-for="MT62"></label>
                         </th>
-                        <th>
-                            <label asp-for="Amount"></label>
-                        </th>
-                        <th>
-                            <label asp-for="Cost"></label>
-                        </th>
-                        <th></th>
                     </tr>
-            <tr>
-                <td>
-                    <input asp-for="Mb" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="M46" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="M62" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MAb" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MA46" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MA62" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MTRb" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MTR46" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MTR62" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MTb" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MT46" class="form-control" value="0" />
-                </td>
-                <td>
-                    <input asp-for="MT62" class="form-control" value="0" />
-                </td>
-                <td>
-                    <label asp-for="Amount"></label>
-                </td>
-                <td>
-                    <input asp-for="M46" class="form-control" value="0" />
-                </td>
-            </tr>
-            </table>
+                    <tr>
+                        <td>
+                            <input asp-for="Mb" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="M46" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="M62" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MAb" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MA46" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MA62" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MTRb" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MTR46" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MTR62" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MTb" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MT46" id="MT46" class="form-control" value="0" />
+                        </td>
+                        <td>
+                            <input asp-for="MT62" class="form-control" value="0" />
+                        </td>
+                    </tr>
+                </table>
             </div>
             <span asp-validation-for="Mb" class="text-danger"></span>
             <span asp-validation-for="M46" class="text-danger"></span>
@@ -125,6 +112,7 @@
         </div>
     </div>
 </form>
+
 
 
 
