@@ -11,9 +11,10 @@ using TravelCardOrderService.Data;
 namespace TravelCardOrderService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180402140131_NullableInt")]
+    partial class NullableInt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,35 +188,35 @@ namespace TravelCardOrderService.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Amount");
+                    b.Property<int?>("Amount");
 
-                    b.Property<int>("Cost");
+                    b.Property<int?>("Cost");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("M46");
+                    b.Property<int?>("M46");
 
-                    b.Property<int>("M62");
+                    b.Property<int?>("M62");
 
-                    b.Property<int>("MA46");
+                    b.Property<int?>("MA46");
 
-                    b.Property<int>("MA62");
+                    b.Property<int?>("MA62");
 
-                    b.Property<int>("MAb");
+                    b.Property<int?>("MAb");
 
-                    b.Property<int>("MT46");
+                    b.Property<int?>("MT46");
 
-                    b.Property<int>("MT62");
+                    b.Property<int?>("MT62");
 
-                    b.Property<int>("MTR46");
+                    b.Property<int?>("MTR46");
 
-                    b.Property<int>("MTR62");
+                    b.Property<int?>("MTR62");
 
-                    b.Property<int>("MTRb");
+                    b.Property<int?>("MTRb");
 
-                    b.Property<int>("MTb");
+                    b.Property<int?>("MTb");
 
-                    b.Property<int>("Mb");
+                    b.Property<int?>("Mb");
 
                     b.Property<string>("UserId");
 

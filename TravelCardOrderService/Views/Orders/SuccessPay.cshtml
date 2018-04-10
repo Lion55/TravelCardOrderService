@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "SuccessPay";
+    var signature = ViewData["signature"];
+}
+
+<h2>Your order was succefully created and paid.</h2>
+<p>@signature</p>
+<a asp-action="GetByUser" class="btn btn-sm btn-success">Back to List</a>
+
+

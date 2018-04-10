@@ -1,12 +1,12 @@
-﻿@model IEnumerable<TravelCardOrderService.Models.Order>
+﻿@model TravelCardOrderService.Models.Order
+
 @{
-    ViewData["Title"] = "All orders";
+    ViewData["Title"] = "Payment";
+    var data = ViewData["data"];
+    var signature = ViewData["signature"];
 }
 
-<br />
-<h2>All orders</h2>
-<hr />
-
+<h2>Prepayment</h2>
 
 <div class="form-border">
     <table class="table">
@@ -58,61 +58,64 @@
             </th>
             <th></th>
         </tr>
-        @foreach (var item in Model)
-        {
+
         <tr>
             <td>
-                @Html.DisplayFor(m => item.UserName)
+                @Html.DisplayFor(m => m.UserName)
             </td>
             <td>
-                @Html.DisplayFor(m => item.Mb)
+                @Html.DisplayFor(m => m.Mb)
             </td>
             <td>
-                @Html.DisplayFor(m => item.M46)
+                @Html.DisplayFor(m => m.M46)
             </td>
             <td>
-                @Html.DisplayFor(m => item.M62)
+                @Html.DisplayFor(m => m.M62)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MAb)
+                @Html.DisplayFor(m => m.MAb)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MA46)
+                @Html.DisplayFor(m => m.MA46)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MA62)
+                @Html.DisplayFor(m => m.MA62)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MTRb)
+                @Html.DisplayFor(m => m.MTRb)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MTR46)
+                @Html.DisplayFor(m => m.MTR46)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MTR62)
+                @Html.DisplayFor(m => m.MTR62)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MTb)
+                @Html.DisplayFor(m => m.MTb)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MT46)
+                @Html.DisplayFor(m => m.MT46)
             </td>
             <td>
-                @Html.DisplayFor(m => item.MT62)
+                @Html.DisplayFor(m => m.MT62)
             </td>
             <td>
-                @Html.DisplayFor(m => item.Amount)
+                @Html.DisplayFor(m => m.Amount)
             </td>
             <td>
-                @Html.DisplayFor(m => item.Cost)
+                @Html.DisplayFor(m => m.Cost)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="bnt btn-sm btn-success">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="bnt btn-sm btn-primary">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="bnt btn-sm btn-danger">Delete</a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="bnt btn-sm btn-success">Edit</a>
             </td>
-        </tr>	
-
-        }
+        </tr>
     </table>
+    <form method="POST" action="https://www.liqpay.com/api/3/checkout"
+          accept-charset="utf-8">
+        <input type="hidden" name="data" value=@data />
+        <input type="hidden" name="signature" value=@signature />
+        <input type="image"
+               src="//static.liqpay.com/buttons/p1en.radius.png" />
+    </form>
 </div>
+
