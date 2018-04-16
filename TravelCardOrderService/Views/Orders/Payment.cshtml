@@ -6,7 +6,7 @@
     var signature = ViewData["signature"];
 }
 
-<h2>Prepayment</h2>
+<h2>Payment</h2>
 
 <div class="form-border">
     <table class="table">
@@ -106,7 +106,7 @@
                 @Html.DisplayFor(m => m.Cost)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="bnt btn-sm btn-success">Edit</a>
+                <a asp-action="Create" class="bnt btn-sm btn-success">Back</a>
             </td>
         </tr>
     </table>

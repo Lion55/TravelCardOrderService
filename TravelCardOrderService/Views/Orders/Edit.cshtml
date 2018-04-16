@@ -5,6 +5,7 @@
 
 <h2>Edit order</h2>
 <hr />
+<h5><label asp-for="UserName">User name: @Model.UserName</label></h5>
 
 <form asp-action="Edit">
     <div class="row form-border">
@@ -12,127 +13,84 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <div class="row">
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="UserName"></label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input asp-for="UserName" disabled class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="Mb"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="Mb" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="M46"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="M46" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="M62"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="M62" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MAb"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MAb" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MA46"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MA46" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MA62"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MA62" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MTRb"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MTRb" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MTR46"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MTR46" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MTR62"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MTR62" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MTb"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MTb" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MT46"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MT46" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="MT62"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="MT62" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="Amount"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="Amount" class="form-control" disabled />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                        <label asp-for="Cost"></label>
-                    </div>
-                    <div class="col-sm-1">
-                        <input asp-for="Cost" class="form-control" disabled />
-                    </div>
-                </div>
-
+                <table class="table">
+                    <tr>
+                        <th>
+                            <label asp-for="Mb"></label>
+                        </th>
+                        <th>
+                            <label asp-for="M46"></label>
+                        </th>
+                        <th>
+                            <label asp-for="M62"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MAb"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MA46"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MA62"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MTRb"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MTR46"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MTR62"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MTb"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MT46"></label>
+                        </th>
+                        <th>
+                            <label asp-for="MT62"></label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="Mb" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="M46" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="M62" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MAb" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MA46" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MA62" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MTRb" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MTR46" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MTR62" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MTb" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MT46" type="number" min="0" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for="MT62" type="number" min="0" class="form-control" />
+                        </td>
+                    </tr>
+                </table>
             </div>
             <span asp-validation-for="Mb" class="text-danger"></span>
             <span asp-validation-for="M46" class="text-danger"></span>

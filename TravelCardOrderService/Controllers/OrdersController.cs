@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using TravelCardOrderService.Data;
 using TravelCardOrderService.Models;
+using MimeKit;
+using MailKit.Net.Smtp;
+using System.Globalization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TravelCardOrderService.Controllers
 {
     [Authorize(Roles = "Admin,User")]
-    //[Route("[controller]")]
     public class OrdersController : Controller
     {
         private readonly IOrdersStorage _ordersStorage;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _config;
 
         //Prices
         private int MbPrice = 191;
@@ -41,10 +45,11 @@ namespace TravelCardOrderService.Controllers
         private int MT62Price = 191;
 
 
-        public OrdersController(IOrdersStorage ordersStorage, UserManager<ApplicationUser> userManager)
-        {
+        public OrdersController(IOrdersStorage ordersStorage, UserManager<ApplicationUser> userManager, IConfiguration config)
+         {
             _ordersStorage = ordersStorage;
             _userManager = userManager;
+            _config = config;
         }
 
         [Authorize(Roles = "Admin")]
@@ -68,7 +73,55 @@ namespace TravelCardOrderService.Controllers
             }
 
             ordersByDate.Sort((x, y) => x.UserName.CompareTo(y.UserName));
+
+            FormFinalOrder(year, month);
+
             return View(ordersByDate);
+        }
+
+        [HttpGet("[controller]/[action]")]
+        public IActionResult FormFinalOrder(int year, int month)
+        {
+            if (year == 0)
+                year = DateTime.Now.Year;
+            if (month == 0)
+                month = DateTime.Now.Month + 1;
+
+            Order final = new Order();
+            List<Order> orders = _ordersStorage.GetAll();
+            var userId = _userManager.GetUserId(User);
+
+            foreach (var o in orders)
+            {
+                if (o.UserId == userId && o.Date.Year == year && o.Date.Month == month)
+                {
+                    final.Mb += o.Mb;
+                    final.M46 += o.M46;
+                    final.M62 += o.M62;
+
+                    final.MAb += o.MAb;
+                    final.MA46 += o.MA46;
+                    final.MA62 += o.MA62;
+
+                    final.MTRb += o.MTRb;
+                    final.MTR46 += o.MTR46;
+                    final.MTR62 += o.MTR62;
+
+                    final.MTb += o.MTb;
+                    final.MT46 += o.MT46;
+                    final.MT62 += o.MT62;
+
+                    final.Cost += o.Cost;
+                    final.Amount += o.Amount;
+                }
+            }
+
+            final.Date = new DateTime(year, month, 1);
+
+            ViewData["finalOrder"] = final;
+
+            return View(final);
+
         }
 
         [HttpGet]
@@ -89,11 +142,28 @@ namespace TravelCardOrderService.Controllers
                     userOrders.Add(o);
                 }
             }
+
+            FormFinalOrder(year, month);
+
             return View(userOrders);
         }
 
         [HttpGet]
         public IActionResult Create()
+        {
+            var date = DateTime.Today;
+            if (date.Day > 15)
+            {
+                return RedirectToAction("OrderClosed", "Orders");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpGet("[controller]/[action]")]
+        public IActionResult OrderClosed()
         {
             return View();
         }
@@ -135,8 +205,8 @@ namespace TravelCardOrderService.Controllers
             {
                 return NotFound();
             }
-            var LIQPAY_PUBLIC_KEY = "";
-            var LIQPAY_PRIVATE_KEY = "";
+            var LIQPAY_PUBLIC_KEY = _config["LIQPAY_PUBLIC_KEY"];
+            var LIQPAY_PRIVATE_KEY = _config["LIQPAY_PRIVATE_KEY"];
 
             Dictionary<string, string> orderPay = new Dictionary<string, string>();
             orderPay.Add("version", "3");
@@ -160,47 +230,17 @@ namespace TravelCardOrderService.Controllers
             return View(order);
         }
 
-        [HttpPost("[controller]/[action]")]
-        public IActionResult Callback(string data, string signature, string order_id, string status)
-        {
-            Console.WriteLine(data);
-            Console.WriteLine(signature);
-            Console.WriteLine(order_id);
-            Console.WriteLine(status);
-
-            return NoContent();
-        }
-
         [HttpGet("[controller]/[action]")]
         public IActionResult SuccessPay()
         {
             return View();
         }
 
-        [HttpPost, ActionName("Payment")]
+        [HttpPost("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public IActionResult PaymentPost(int id)
+        public IActionResult SuccessPay(HttpContext httpContext)
         {
-            var LIQPAY_PUBLIC_KEY = "i10448010334";
-            var LIQPAY_PRIVATE_KEY = "TlGHffdG2zcec7YdMjUkBifUfwdKxTXfMCqW50VG";
-
-            Dictionary<string, string> order = new Dictionary<string, string>();
-            order.Add("version", "3");
-            order.Add("action", "pay");
-            order.Add("amount", "1");
-            order.Add("currency", "UAH");
-            order.Add("description", "description text");
-            order.Add("order_id", id.ToString());
-            order.Add("sandbox", "1");
-            order.Add("public_key", LIQPAY_PUBLIC_KEY);
-
-            var json = JsonConvert.SerializeObject(order);
-            var data = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
-            var signature = Convert.ToBase64String(SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(LIQPAY_PRIVATE_KEY + data + LIQPAY_PRIVATE_KEY)));
-
-            ViewData["data"] = data;
-            ViewData["signature"] = signature;
-
+            var userId = httpContext.Request.QueryString.Value[1];
             return View();
         }
 
@@ -286,6 +326,46 @@ namespace TravelCardOrderService.Controllers
             _ordersStorage.Remove(order);
             await _ordersStorage.SaveChangesAsync();
             return RedirectToAction(nameof(GetByUser));
+        }
+
+        [HttpGet("[controller]/[action]")]
+        public IActionResult SendEmail()
+        {
+            return View();
+        }
+
+        [HttpPost("[controller]/[action]")]
+        public async Task<IActionResult> SendEmail(EmailInfo emailInfo)
+        {
+            var currentMonth = DateTime.Now.Date.ToString("MMMM", new CultureInfo("uk-UA"));
+
+            var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, DateTime.Now.Day);
+            var nextMonth = date.ToString("MMMM", new CultureInfo("uk-UA"));
+
+            var emailMessage = new MimeMessage();
+
+            emailMessage.From.Add(new MailboxAddress("Admin", "brunets1997@gmail.com"));
+            emailMessage.To.Add(new MailboxAddress("Students", "brunets1997@gmail.com"));
+            emailMessage.Subject = "Проїзні на " + nextMonth;
+            emailMessage.Body = new TextPart("html")
+            {
+                Text = "Доброго дня!" + "<br>" + "Роздача проїзних на " + nextMonth + ": " + currentMonth + " " + emailInfo.Day + "-го з " +
+                emailInfo.FromHour + " по " + emailInfo.ToHour + "<br>" +
+                "Місце: " + emailInfo.Place + "<br>" +
+                "Контактна особа Андрій - 093 23 23 432" + "<br>" +
+                "https://www.facebook.com/andrew.brunets"
+            };
+
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                await client.AuthenticateAsync("brunets1997@gmail.com", _config["Gmail"]);
+                await client.SendAsync(emailMessage);
+
+                await client.DisconnectAsync(true);
+            }
+
+            return RedirectToAction("GetByUser", "Orders");
         }
 
         protected override void Dispose(bool disposing)

@@ -249,7 +249,7 @@ namespace TravelCardOrderService.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
         [HttpPost]
@@ -457,7 +457,7 @@ namespace TravelCardOrderService.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(OrdersController.GetByUser), "Orders");
             }
         }
 

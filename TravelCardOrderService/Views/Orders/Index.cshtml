@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<TravelCardOrderService.Models.Order>
-@using TravelCardOrderService.Controllers
+@using System.Globalization
 @{
     ViewData["Title"] = "All orders";
     Order finalOrder = (Order)ViewData["finalOrder"];
@@ -8,6 +8,7 @@
 <br />
 <h2>All orders</h2>
 <hr />
+<h3>@finalOrder.Date.ToString("MMMM", CultureInfo.InvariantCulture)</h3>
 
 
 <div class="form-border">
@@ -118,7 +119,7 @@
         @{ 
         
         <tr>
-            <th></th>
+            <th>Total</th>
             <th>@finalOrder.Mb</th>
             <th>@finalOrder.M46</th>
             <th>@finalOrder.M62</th>
@@ -138,7 +139,7 @@
             <th>@finalOrder.Amount</th>
             <th>@finalOrder.Cost</th>
             <th>
-                <a asp-action="FormFinalOrder" class="bnt btn-sm btn-warning">Form final order</a>
+                <a asp-action="FormFinalOrder" asp-route-year="@finalOrder.Date.Year" asp-route-month="@finalOrder.Date.Month" class="bnt btn-sm btn-warning">Form final order</a>
             </th>
         </tr>
         }

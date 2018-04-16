@@ -1,0 +1,22 @@
+﻿@model TravelCardOrderService.Models.EmailInfo
+@{
+    ViewData["Title"] = "SendEmail";
+}
+
+<h2>Send Email</h2>
+
+<form asp-action="SendEmail">
+    <label asp-for="Day">Choose the distribution day:</label>
+    <input asp-for="Day" class="form-control" value="1" />
+    <br />
+    <label asp-for="FromHour">From:</label>
+    <input asp-for="FromHour" class="form-control" value="11.20" />
+    <br/>
+    <label asp-for="ToHour">To:</label>
+    <input asp-for="ToHour" class="form-control" value="13.30" />
+    <br/>
+    <label asp-for="Place">Place:</label>
+    <input asp-for="Place" class="form-control" value="бібліотека Антоновичів (велика зала)" />
+    <br/>
+    <input type="submit" value="Send email" class="btn btn-sm btn-primary" />
+</form>

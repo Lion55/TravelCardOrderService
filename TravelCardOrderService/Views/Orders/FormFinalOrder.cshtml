@@ -1,9 +1,13 @@
 ﻿@model TravelCardOrderService.Models.Order
+@using System.Globalization
 @{
     ViewData["Title"] = "FormFinalOrder";
+    Order finalOrder = (Order)ViewData["finalOrder"];
 }
 
 <h2>Final order</h2>
+<h3>@finalOrder.Date.ToString("MMMM", CultureInfo.InvariantCulture)</h3>
+
 
 <p>
     Mb: @Html.DisplayFor(Model => Model.Mb)
